@@ -23,13 +23,21 @@ const char SPIN   = 's';
 const char SPUN   = 't';
 const char LOSE   = 'l';
 
-char state     = OFF;
-char old_state = OFF; //used to track changes of the state
-
+char state = OFF;
+long interval = 1000;           // interval at which to blink (milliseconds)
 
 /* PINS */
 const int coin_input_pin = 0;
 const int ledPin = 13;
+const int led1 = 8;
+const int led2 = 9;
+const int led3 = 10;
+
+int ledState1 = LOW;
+int ledState2 = LOW;
+int ledState3 = LOW;
+
+long previousMillis = 0;        // will store last time LED was updated
 
 /* Wheel init {pin, offset} */
 wheel_t wheels[N_WHEELS] = {
@@ -122,6 +130,22 @@ void loop() {
     }  
     delay(10);
     
+  unsigned long currentMillis = millis();
+ 
+  if(currentMillis - previousMillis > interval) {
+    // save the last time you blinked the LED 
+    previousMillis = currentMillis;
+
+    // if the LED is off turn it on and vice-versa:
+    ledState1 = ledState1 == LOW ? HIGH : LOW;
+    ledState2 = ledState2 == LOW ? HIGH : LOW;
+    ledState3 = ledState3 == LOW ? HIGH : LOW;
+
+    // set the LED with the ledState of the variable:
+    digitalWrite(led1, ledState1);
+    digitalWrite(led2, ledState2);
+    digitalWrite(led3, ledState3);
+  }
 }
 
     // int coin_input_state = digitalRead(coin_input_pin);
