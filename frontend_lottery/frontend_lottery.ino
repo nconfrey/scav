@@ -10,6 +10,8 @@ typedef struct wheel {
 } wheel_t;
 
 void update_wheel_offsets();
+void test_brake(int i);
+void reset_wheels();
 
 /* ======================== */
 
@@ -17,6 +19,7 @@ void update_wheel_offsets();
 const char OFF    = 'o';
 const char WINNER = 'w';
 const char SPIN   = 's';
+const char SPUN   = 't';
 const char LOSE   = 'l';
 
 char state     = OFF;
@@ -29,10 +32,17 @@ const int ledPin = 13;
 
 /* Wheel init {pin, offset} */
 wheel_t wheels[N_WHEELS] = {
-    {2, 0, HIGH, 8, 10},
-    {3, 0, HIGH, 9, 20},
-    {4, 0, HIGH, 10, 30}
+    {5, 0, HIGH, 8, 10},
+    {6, 0, HIGH, 9, 15},
+    {7, 0, HIGH, 10, 30}
 };
+
+void test_brake(int i)
+{
+    digitalWrite(wheels[i].brake_pin, HIGH);
+    delay(50);
+    digitalWrite(wheels[i].brake_pin, LOW);
+}
 
 void setup(){
     // initialize the serial communication:
@@ -44,32 +54,62 @@ void setup(){
     for (int i = 0; i < N_WHEELS; i++){
         pinMode(wheels[i].pin, INPUT);
         pinMode(wheels[i].brake_pin, OUTPUT);
+        test_brake(i);
     }
+    state = SPIN;
 }
 
 void update_wheel_offsets()
 {
     for (int i = 0; i < N_WHEELS; i++){
         int voltage = digitalRead(wheels[i].pin);
-
         if (voltage == HIGH && wheels[i].voltage == LOW){
             // we've gone from low to high voltage, this means that
             // the spoke has made contact again
             wheels[i].voltage = HIGH;
-            wheels[i].offset++;            
-        } else if (voltage == LOW){
+            wheels[i].offset++; 
+            digitalWrite(ledPin, HIGH); 
+        } if (voltage == LOW && wheels[i].voltage == HIGH){
+            // we've gone from high to low voltage, this means that
+            // the spoke left contact with slinky    
+            //digitalWrite(ledPin, LOW);
+        }
+        if (voltage == LOW){
             wheels[i].voltage = LOW;
-            //analogWrite(ledPin, 100);
+            digitalWrite(ledPin, LOW);            
+        } else {
+            digitalWrite(ledPin, HIGH);
         }
         if (wheels[i].offset >= wheels[i].brake_threshold){
            digitalWrite(wheels[i].brake_pin, HIGH);
         }
     }
+    int all_above_threshold = 1;
+    for (int i = 0; i < N_WHEELS; i++){
+      if (wheels[i].offset < wheels[i].brake_threshold){
+        all_above_threshold = 0;
+        break;
+      }
+    }
+    if (all_above_threshold){
+      state = SPUN;
+    }
+}
+
+void reset_wheels()
+{
+    for (int i = 0; i < N_WHEELS; i++){
+        digitalWrite(wheels[i].brake_pin, LOW);
+    }
 }
 
 void loop() {
-    //digitalWrite(wheels[0].brake_pin, HIGH);
-    update_wheel_offsets();
+    if (state == SPIN){
+      update_wheel_offsets();
+    } else if (state == SPUN){
+      delay(3000);
+      reset_wheels();
+    }  
     delay(10);
     
 }
