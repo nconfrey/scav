@@ -12,6 +12,7 @@ typedef struct wheel {
 void update_wheel_offsets();
 void test_brake(int i);
 void reset_wheels();
+void transition_to_state(int _state);
 
 /* ======================== */
 
@@ -27,7 +28,7 @@ char old_state = OFF; //used to track changes of the state
 
 
 /* PINS */
-const int coin_input_pin = 1;
+const int coin_input_pin = 0;
 const int ledPin = 13;
 
 /* Wheel init {pin, offset} */
@@ -71,8 +72,7 @@ void update_wheel_offsets()
             digitalWrite(ledPin, HIGH); 
         } if (voltage == LOW && wheels[i].voltage == HIGH){
             // we've gone from high to low voltage, this means that
-            // the spoke left contact with slinky    
-            //digitalWrite(ledPin, LOW);
+            // the spoke left contact with slinky. do nothing.
         }
         if (voltage == LOW){
             wheels[i].voltage = LOW;
@@ -92,7 +92,7 @@ void update_wheel_offsets()
       }
     }
     if (all_above_threshold){
-      state = SPUN;
+      transition_to_state(SPUN);
     }
 }
 
@@ -103,12 +103,22 @@ void reset_wheels()
     }
 }
 
+void transition_to_state(int _state)
+{
+    //Serial.println(_state);
+    state = _state;
+}
+
 void loop() {
-    if (state == SPIN){
+
+    if (state == OFF){
+      transition_to_state(SPIN);
+    } else if (state == SPIN){
       update_wheel_offsets();
     } else if (state == SPUN){
       delay(3000);
       reset_wheels();
+      transition_to_state(SPIN);
     }  
     delay(10);
     
