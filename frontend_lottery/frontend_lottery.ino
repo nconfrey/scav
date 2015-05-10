@@ -4,6 +4,7 @@
 typedef struct wheel {
     int pin;
     int offset;
+    int total_offset;
     unsigned char voltage;
     int brake_pin;
     int brake_threshold;
@@ -24,10 +25,11 @@ const char SPUN   = 't';
 const char LOSE   = 'l';
 
 char state = OFF;
+
 long interval = 1000;           // interval at which to blink (milliseconds)
 
 /* PINS */
-const int coin_input_pin = 0;
+const int state_button_pin = 2;
 const int ledPin = 13;
 const int led1 = 8;
 const int led2 = 9;
@@ -46,7 +48,7 @@ wheel_t wheels[N_WHEELS] = {
     {7, 0, HIGH, 10, 30}
 };
 
-void test_brake(int i)
+void tap_brake(int i)
 {
     digitalWrite(wheels[i].brake_pin, HIGH);
     delay(50);
@@ -58,14 +60,14 @@ void setup(){
     Serial.begin(9600);
 
     /* initialize pins */
-    pinMode(coin_input_pin, INPUT);
+    pinMode(state_button_pin, INPUT);
     pinMode(ledPin, OUTPUT);
     for (int i = 0; i < N_WHEELS; i++){
         pinMode(wheels[i].pin, INPUT);
         pinMode(wheels[i].brake_pin, OUTPUT);
-        test_brake(i);
+        tap_brake(i);
     }
-    state = SPIN;
+    state = OFF;
 }
 
 void update_wheel_offsets()
@@ -77,6 +79,7 @@ void update_wheel_offsets()
             // the spoke has made contact again
             wheels[i].voltage = HIGH;
             wheels[i].offset++; 
+            wheels[i].total_offset++; 
             digitalWrite(ledPin, HIGH); 
         } if (voltage == LOW && wheels[i].voltage == HIGH){
             // we've gone from high to low voltage, this means that
@@ -108,19 +111,23 @@ void reset_wheels()
 {
     for (int i = 0; i < N_WHEELS; i++){
         digitalWrite(wheels[i].brake_pin, LOW);
+        wheels[i].offset = 0;
     }
 }
 
 void transition_to_state(int _state)
 {
-    //Serial.println(_state);
+    Serial.println(_state);
     state = _state;
 }
 
 void loop() {
-
     if (state == OFF){
-      transition_to_state(SPIN);
+        if (digitalRead(state_button_pin) == HIGH){
+          //digitalWrite(ledPin, HIGH);
+          delay(100);
+          transition_to_state(SPIN);
+        } 
     } else if (state == SPIN){
       update_wheel_offsets();
     } else if (state == SPUN){
