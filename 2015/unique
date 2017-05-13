@@ -1,0 +1,32 @@
+print "distinct:"
+words = set(w.lower() for w in open('003_emileeletter.txt').read().split())
+print len(words)
+
+count = {}
+for w in open('003_emileeletter.txt').read().split():
+    v = w.lower()
+    if v in count:
+        count[v] += 1
+    else:
+        count[v] = 1
+dupe = 0
+unique = 0
+total = 0
+for word, times in count.items():
+	print "%s ------- found %d times" % (word, times)
+	total += times;
+	if times > 1:
+		dupe+=1
+	else:
+		unique+=1
+print "unique:"
+print unique
+
+print "duplicates:"
+print dupe
+
+print "product:"
+print dupe * unique
+
+print "total:"
+print total
