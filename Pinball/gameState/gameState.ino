@@ -10,13 +10,13 @@
  */
 
 //Define Pins
-const int buttonPin = 7;
-const int topOutlet = 8;
-const int bottomOutlet = 9;
-const int bumper1Pin = 1;
-const int bumper2Pin = 2;
-const int bumper3Pin = 3;
-const int bumper4Pin = 4;
+const int buttonPin = 9;
+const int topOutlet = 10;
+const int bottomOutlet = 11;
+const int bumper1Pin = 2;
+const int bumper2Pin = 4;
+const int bumper3Pin = 7;
+const int bumper4Pin = 8;
 
 //Define game state machine
 #define PREGAME 0
@@ -54,7 +54,7 @@ void preGameLoop()
 
 void playGameLoop()
 {
-  if(digitalRead(bumper1Pin) == LOW) //if the first bumper is hit
+  if(digitalRead(bumper1Pin) == HIGH) //if the first bumper is hit
   {
     //flickLED();
     Serial.println("1");
@@ -79,4 +79,5 @@ void playGameLoop()
 void loop() 
 {
   playGameLoop();
+  delay(10);
 }
