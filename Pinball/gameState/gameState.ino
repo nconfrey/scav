@@ -11,10 +11,10 @@
 
 //Define Pins
 const int buttonPin = 9;
-const int topOutlet = 10;
-const int bottomOutlet = 11;
-const int bumper1Pin = 2;
-const int bumper2Pin = 4;
+const int topOutlet = 13;
+const int bottomOutlet = 12;
+const int bumper1Pin = 4;
+const int bumper2Pin = 2;   
 const int bumper3Pin = 7;
 const int bumper4Pin = 8;
 
@@ -38,12 +38,12 @@ void setup() {
 void flickLED()
 {
   digitalWrite(LED_BUILTIN, HIGH);
-  digitalWrite(topOutlet, HIGH);
-  digitalWrite(bottomOutlet, HIGH);
-  delay(1000);
-  digitalWrite(LED_BUILTIN, LOW);
   digitalWrite(topOutlet, LOW);
   digitalWrite(bottomOutlet, LOW);
+  delay(1000);
+  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(topOutlet, HIGH);
+  digitalWrite(bottomOutlet, HIGH);
 }
 
 void preGameLoop()
@@ -56,22 +56,22 @@ void playGameLoop()
 {
   if(digitalRead(bumper1Pin) == HIGH) //if the first bumper is hit
   {
-    //flickLED();
+    flickLED();
     Serial.println("1");
   }
   if(digitalRead(bumper2Pin) == HIGH) //if the second bumper is hit
   {
-    //flickLED();
+    flickLED();
     Serial.println("2");
   }
   if(digitalRead(bumper3Pin) == HIGH) //if the third bumper is hit
   {
-    //flickLED();
+    flickLED();
     Serial.println("3");
   }
   if(digitalRead(bumper4Pin) == HIGH) //if the fourth bumper is hit
   {
-    //flickLED();
+    flickLED();
     Serial.println("4");
   }
 }
