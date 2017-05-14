@@ -10,16 +10,18 @@
  */
 
 //Define Pins
+const int buttonPin = 7;
 const int topOutlet = 8;
 const int bottomOutlet = 9;
-const int bumper1Pin = 10;
-const int bumper2Pin = 11;
-const int bumper3Pin = 12;
-const int bumper4Pin = 13;
+const int bumper1Pin = 1;
+const int bumper2Pin = 2;
+const int bumper3Pin = 3;
+const int bumper4Pin = 4;
 
 //Define game state machine
 #define PREGAME 0
-#define PLAYGAME 0
+#define PLAYGAME 1
+int STATE = PREGAME;
 
 void setup() {
   pinMode(bottomOutlet, OUTPUT);
@@ -28,6 +30,8 @@ void setup() {
   pinMode(bumper2Pin, INPUT);
   pinMode(bumper3Pin, INPUT);
   pinMode(bumper4Pin, INPUT);
+
+  Serial.begin(9600);
 }
 
 //for testing
@@ -42,27 +46,37 @@ void flickLED()
   digitalWrite(bottomOutlet, LOW);
 }
 
-void loop() {
-  if(digitalRead(bumper1Pin)) //if the first bumper is hit
+void preGameLoop()
+{
+  if(digitalRead(buttonPin))
+    STATE = PLAYGAME;
+}
+
+void playGameLoop()
+{
+  if(digitalRead(bumper1Pin) == LOW) //if the first bumper is hit
   {
-    flickLED();
+    //flickLED();
     Serial.println("1");
   }
-  if(digitalRead(bumper2Pin)) //if the second bumper is hit
+  if(digitalRead(bumper2Pin) == HIGH) //if the second bumper is hit
   {
-    flickLED();
+    //flickLED();
     Serial.println("2");
   }
-  if(digitalRead(bumper3Pin)) //if the third bumper is hit
+  if(digitalRead(bumper3Pin) == HIGH) //if the third bumper is hit
   {
-    flickLED();
+    //flickLED();
     Serial.println("3");
   }
-  if(digitalRead(bumper4Pin)) //if the fourth bumper is hit
+  if(digitalRead(bumper4Pin) == HIGH) //if the fourth bumper is hit
   {
-    flickLED();
+    //flickLED();
     Serial.println("4");
   }
-  
+}
 
+void loop() 
+{
+  playGameLoop();
 }
