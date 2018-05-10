@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import ReactSpeedometer from 'react-d3-speedometer';
 import logo from './logo.svg';
+import banner from './banner.jpg';
 import './App.css';
-
+import Confetti from 'react-confetti'
 
 class App extends Component {
   _getValue() {
@@ -25,6 +26,17 @@ class App extends Component {
     }
   }
 
+  getWinnningTeam() {
+    if (this.state.value > 10) {
+      return "Breck"
+    } else if (this.state.value >= -10 || this.state.value <= 10) {
+      return "Toss Up"
+    } 
+    else {
+      return "Snitchcock"
+    }
+  }
+
   componentDidMount() {
     console.log("throw me a bone", this.state)
     this.value = setInterval(() => this.setState({value: this._getValue()}), 1000)
@@ -38,11 +50,11 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <img src={banner} className="App-logo" alt="logo" />
+          <h1 className="App-title">Will Breck Scav Win??</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          Given that is it now blank oclock, we assess our odds to be
         </p>
         <div class="container">
           <div class="row">
@@ -61,11 +73,19 @@ class App extends Component {
               />
             </div>
             <div class="col">
+              {this.state.value > 80 && <Confetti {...this.props.size} />}
               <span>Breck</span>
             </div>
           </div>
         </div>
+        <div className="Prediction">
+        <header>
+          <h1>Prediction:</h1>
+          <h1>{Math.round(Math.abs(this.state.value)) + "% " + this.getWinnningTeam()}</h1>
+        </header>
+        </div>
       </div>
+
     );
   }
 }
