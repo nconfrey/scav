@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "react": "^16.3.2",
+    "react-confetti": "^2.3.0",
     "react-d3-speedometer": "^0.3.2",
     "react-dom": "^16.3.2",
     "react-scripts": "1.1.4"

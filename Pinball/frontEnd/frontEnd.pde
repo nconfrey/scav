@@ -31,9 +31,9 @@ void setup() {
   fill(0, 102, 153);
   
   //set up speaker output
-  multiballSound = new SoundFile(this, "MULTIBALL.mp3");
-  bumperHit = new SoundFile(this, "hit.mp3");
-  ambient = new SoundFile(this, "ambient.mp3");
+  multiballSound = new SoundFile(this, "C:\\Users\\Nick Confrey\\Documents\\Projects\\scav\\Pinball\\frontEnd\\MULTIBALL.mp3");
+  bumperHit = new SoundFile(this, "C:\\Users\\Nick Confrey\\Documents\\Projects\\scav\\Pinball\\frontEnd\\hit.mp3");
+  ambient = new SoundFile(this, "C:\\Users\\Nick Confrey\\Documents\\Projects\\scav\\Pinball\\frontEnd\\ambient.mp3");
   ambient.play();
 }
 
