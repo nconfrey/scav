@@ -42,6 +42,12 @@ class App extends Component {
         </p>
         <ReactSpeedometer 
           value={this.state.value}
+          width={600}
+          height={400}
+          currentValueText={"2018 Scav"}
+          startColor={"#7474ea"}
+          minValue={-100}
+          maxValue={100}
         />
         <div className="Prediction">
         <header>
