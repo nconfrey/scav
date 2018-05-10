@@ -22,7 +22,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      value: this._getValue()
+      value: this._getValue(),
+      sign: 1
     }
   }
 
@@ -38,8 +39,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log("throw me a bone", this.state)
-    this.value = setInterval(() => this.setState({value: this._getValue()}), 1000)
+    this.value = setInterval(() => this.setState({value: this._getValue() + (0.5*this.state.sign), sign: this.state.sign*-1}), 1000)
   }
 
   componentWillUnmount() {
@@ -54,7 +54,7 @@ class App extends Component {
           <h1 className="App-title">Will Breck Scav Win??</h1>
         </header>
         <p className="App-intro">
-          Given that is it now blank oclock, we assess our odds to be
+          We assess our odds to be
         </p>
         <div class="container">
           <div class="row">

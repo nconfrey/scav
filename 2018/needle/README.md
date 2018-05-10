@@ -1,3 +1,11 @@
+# Scav Item 137
+
+> A New York Times-style needle predicting the outcome and margin of this year's Hunt, updated in real-time over the course of the Four Days. While your needle can be digital or analog, we're gonna need a URL by 12:00 p.m. on Thursday so we can compulsively hit refresh. [14 ± 1 points]
+
+Note: The git setup for this is a bit twisted because we didn't use subprojects. Copy all of the contents from `mygitstuff/` to `.git/` in order to push to heroku, otherwise remove `.git/`.
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
