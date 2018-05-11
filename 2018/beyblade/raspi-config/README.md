@@ -1,4 +1,10 @@
-# Some useful commands, files, and directories
+# (in progress) What actually worked
+
+- Seems like our remote wasn't working and `irrecord` command with 0.9.4c might be messed up?
+- Got the file using `irdb-get find samsung` then installed the closest match to our tv remote (not the starter kit remote) and copied to `/etc/lirc/lircd.conf.d/`
+- irw worked then for the good config!! a good way to debug this moving forward is to use a config and remote already known to work
+
+# (OUTDATED) Some useful commands, files, and directories
 
 ## Commands
 
