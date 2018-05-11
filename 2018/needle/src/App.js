@@ -16,6 +16,9 @@ class App extends Component {
     const numerator = currTime - startTimestamp;
 
     const percentChanceOfWinningFromNegHundoToHundo = 200 - ((numerator/denominator)*200) - 100;
+    if (percentChanceOfWinningFromNegHundoToHundo < -99.0) {
+      return -99.5
+    }
     return percentChanceOfWinningFromNegHundoToHundo
   }
 
