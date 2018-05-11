@@ -1,0 +1,70 @@
+
+# This file comes from a post about a bug in stretch
+# http://lirc.10951.n7.nabble.com/Warnings-for-devinput-config-file-td10695.html#a10703
+#
+# Please take the time to finish this file as described in
+# https://sourceforge.net/p/lirc-remotes/wiki/Checklist/
+# and make it available to others by sending it to
+# <lirc@bartelmus.de>
+#
+# This config file was automatically generated
+# using lirc-0.9.4c(default) on Fri Nov 24 12:18:25 2017
+# Command line used: -d /dev/lirc0 /home/pi/lircd.conf
+# Kernel version (uname -r): 4.9.59+
+#
+# Remote name (as of config file): DingMai
+# Brand of remote device, the thing you hold in your hand:
+# Remote device model nr:
+# Remote device info url:
+# Does remote device has a bundled capture device e. g., a
+#     usb dongle? :
+# For bundled USB devices: usb vendor id, product id
+#     and device string (use dmesg or lsusb):
+# Type of device controlled
+#     (TV, VCR, Audio, DVD, Satellite, Cable, HTPC, ...) :
+# Device(s) controlled by this remote:
+
+begin remote
+
+  name  DingMai
+  bits           32
+  flags SPACE_ENC|CONST_LENGTH
+  eps            30
+  aeps          100
+
+  header       9117  4494
+  one           569  1703
+  zero          569   568
+  ptrail        575
+  repeat       9110  2225
+  gap          108337
+  toggle_bit_mask 0x0
+  frequency    38000
+
+      begin codes
+          KEY_POWER                0x00FD00FF 0xBED8F1BC
+          KEY_VOLUMEUP             0x00FD807F 0xBED8F1BC
+          KEY_STOP                 0x00FD40BF 0xBED8F1BC
+          KEY_BACK                 0x00FD20DF 0xBED8F1BC
+          KEY_PLAYPAUSE            0x00FDA05F 0xBED8F1BC
+          KEY_FORWARD              0x00FD609F 0xBED8F1BC
+          KEY_DOWN                 0x00FD10EF 0xBED8F1BC
+          KEY_VOLUMEDOWN           0x00FD906F 0xBED8F1BC
+          KEY_UP                   0x00FD50AF 0xBED8F1BC
+          KEY_0                    0x00FD30CF 0xBED8F1BC
+          KEY_EQUAL                0x00FDB04F 0xBED8F1BC
+          KEY_MEDIA_REPEAT         0x00FD708F 0xBED8F1BC
+          KEY_1                    0x00FD08F7 0xBED8F1BC
+          KEY_2                    0x00FD8877 0xBED8F1BC
+          KEY_3                    0x00FD48B7 0xBED8F1BC
+          KEY_4                    0x00FD28D7 0xBED8F1BC
+          KEY_5                    0x00FDA857 0xBED8F1BC
+          KEY_6                    0x00FD6897 0xBED8F1BC
+          KEY_7                    0x00FD18E7 0xBED8F1BC
+          KEY_8                    0x00FD9867 0xBED8F1BC
+          KEY_9                    0x00FD58A7 0xBED8F1BC
+      end codes
+
+end remote
+
+
