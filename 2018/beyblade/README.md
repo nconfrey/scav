@@ -24,3 +24,10 @@ Gotchas:
 
 - The OMXPlayer wrapper can only have one video per instance as per https://github.com/willprice/python-omxplayer-wrapper/issues/73 thus we work around this by concatenating all of our videos together and simply seekingto play different snippets.
 
+### IR Reciever
+
+- https://gist.github.com/prasanthj/c15a5298eb682bde34961c322c95378b
+- http://shallowsky.com/blog/hardware/raspberry-pi-ir-remote.html
+- http://alexba.in/blog/2013/01/06/setting-up-lirc-on-the-raspberrypi/
+- https://www.raspberrypi.org/forums/viewtopic.php?t=192891
+
