@@ -67,6 +67,18 @@ def run_player(player):
                 break
             else:
                 print('player cannot quit %s (%s)' % (keyname, updown))
+        elif keyname == b'KEY_2':
+            if player.can_seek():
+                player.set_position(2)
+                print('positioning to 2 %s (%s)' % (keyname, updown))
+            else:
+                print('player cannot seek %s (%s)' % (keyname, updown))
+        elif keyname == b'KEY_4':
+            if player.can_seek():
+                player.set_position(4)
+                print('positioning to 4 %s (%s)' % (keyname, updown))
+            else:
+                print('player cannot seek %s (%s)' % (keyname, updown))
 
     print('goodbye')
 
