@@ -33,7 +33,7 @@ class App extends Component {
   getWinnningTeam() {
     if (this.state.value > 10) {
       return "Breck"
-    } else if (this.state.value >= -10 || this.state.value <= 10) {
+    } else if (this.state.value >= -10 && this.state.value <= 10) {
       return "Toss Up"
     } 
     else {
