@@ -11,20 +11,33 @@
 ## If irw works, then in theory, this should too.
 ## Based on irw.c, https://github.com/aldebaran/lirc/blob/master/tools/irw.c
 
-
+import os
 import socket
+import subprocess
 from omxplayer.player import OMXPlayer
 from pathlib import Path
 from time import sleep
 
+# =======================
+#      IR RECEIVER
+# =======================
 SOCKPATH = "/var/run/lirc/lircd"
 
 sock = None
 
+
+# =======================
+#    VIDEO SETTINGS
+# =======================
 VIDEO_PATH = "./media/ocean_test.mp4"
 # note: -602 is about 50% volume and -2000 is 10% volume. todo: add source
 VIDEO_VOLUME = -3000
 VIDEO_AUDIO_SOURCE = 'local' # change to 'hdmi' to play audio over HDMI rather than headphone jack
+
+# =======================
+#  AUDIO ACCENT SETTINGS
+# =======================
+AUDIO_CHEER_PATH = os.path.join(os.getcwd(), 'media', 'small_crowd_cheer.wav')
 
 def init_irw():
     global sock
@@ -82,6 +95,9 @@ def run_player(player):
                 print('positioning to 4 %s (%s)' % (keyname, updown))
             else:
                 print('player cannot seek %s (%s)' % (keyname, updown))
+        elif keyname == b'KEY_9' and updown == b'00':
+            print('calling aplay with audio path %s' % AUDIO_CHEER_PATH)
+            subprocess.Popen(['aplay', AUDIO_CHEER_PATH])
 
     print('goodbye')
 
