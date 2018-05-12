@@ -19,6 +19,8 @@ void setup() {
   Serial.begin(9600);
   Serial.println("IR Receiver Button Decode"); 
   irrecv.enableIRIn(); // Start the receiver
+  myservo.write(closed);
+  delay(100);
 }
 
 void loop() 
@@ -29,7 +31,6 @@ void loop()
     irrecv.resume(); // receive the next value
     myservo.write(openned);
     delay(100); 
-    myservo.write(closed);
   }  
 }
 
