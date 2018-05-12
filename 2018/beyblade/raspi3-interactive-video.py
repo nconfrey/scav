@@ -22,6 +22,9 @@ SOCKPATH = "/var/run/lirc/lircd"
 sock = None
 
 VIDEO_PATH = "./media/ocean_test.mp4"
+# note: -602 is about 50% volume and -2000 is 10% volume. todo: add source
+VIDEO_VOLUME = -3000
+VIDEO_AUDIO_SOURCE = 'local' # change to 'hdmi' to play audio over HDMI rather than headphone jack
 
 def init_irw():
     global sock
@@ -62,7 +65,7 @@ def run_player(player):
             if player.can_quit():
                 player.quit()
                 print('quitting %s (%s)' % (keyname, updown))
-                sleep(3)
+                sleep(1)
                 print('exiting program')
                 break
             else:
@@ -88,8 +91,9 @@ if __name__ == '__main__':
     init_irw()
 
     # Initialize the OMXPlayer and sleep to load in video
-    player = OMXPlayer(VIDEO_PATH, args=['--no-osd'], pause=True)
-    sleep(5)
+    player = OMXPlayer(VIDEO_PATH, args=['--no-osd', '--vol', str(VIDEO_VOLUME), '-o', VIDEO_AUDIO_SOURCE], pause=True)
+    player.pause()
+    sleep(3)
 
     try:
         run_player(player)
