@@ -112,6 +112,41 @@ Then restart (you can also just restart lircd but it's easier to reboot then che
 
 If none of this works, seriously, get another remote, check `irdb-get find $SOME_REMOTE_NAME_SUBSTRING` and move THAT conf file to /etc/lirc/lircd.conf.d/, then see if that remote works. `irrecord` seems to have problems with 0.9.4c
 
+## Troubleshooting
+
+If you see an output like this in the commandline:
+
+```
+$ <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999992222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222^C
+```
+
+something's kind of messed up. I'm not sure what the issue actually is, but it has something to do with way too many processes running
+
+```
+$ ps aux | grep lirc
+root       321  0.0  0.1   4280  1112 ?        Ss   02:23   0:00 /usr/sbin/lircmd --nodaemon
+root       335  0.0  0.1   4208  1080 ?        Ss   02:23   0:00 /usr/bin/irexec /etc/lirc/irexec.lircrc
+root       408  0.0  0.3   7192  3208 ?        Ss   02:23   0:00 /usr/sbin/lircd --nodaemon
+root       410  0.0  0.1   4284  1156 ?        Ss   02:23   0:00 /usr/sbin/lircd-uinput
+pi         851  0.0  0.0   4372   560 pts/0    S+   02:26   0:00 grep --color=auto lirc
+```
+
+so kill and then start `lircd` (commands below)
+
+```
+sudo /etc/init.d/lircd stop
+sudo /etc/init.d/lircd start
+```
+
+If the restart worked, your processes should look like this:
+
+```
+$ ps aux | grep lirc
+root       953  0.1  0.3   7192  3152 ?        Ss   02:27   0:00 /usr/sbin/lircd --nodaemon
+pi         975  0.0  0.0   4372   580 pts/0    S+   02:28   0:00 grep --color=auto lirc
+```
+
+and you should be good to go.
 
 # (OUTDATED) Some useful commands, files, and directories
 
