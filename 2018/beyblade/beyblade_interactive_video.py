@@ -34,7 +34,7 @@ sock = None
 # =======================
 VIDEO_PATH = "./media/beyblade-semi-interactable-v1.mp4"
 # note: -602 is about 50% volume and -2000 is 10% volume. todo: add source
-VIDEO_VOLUME = -3000
+VIDEO_VOLUME = -602
 VIDEO_AUDIO_SOURCE = 'hdmi' # change to 'hdmi' to play audio over HDMI rather than headphone jack ('local')
 
 # =======================
@@ -136,7 +136,7 @@ class VidPlayer(object):
             endTime=553,
         )
 
-	self.excited_vids = [cheer1_screen, cheer2_screen]
+        self.excited_vids = [cheer1_screen, cheer2_screen]
         self.neutral_vids = [boo1_screen, boo2_screen]
         self.negative_vids = [nut1_screen, nut2_screen]
 
@@ -164,8 +164,14 @@ class VidPlayer(object):
         if keyname == b'KEY_BACK':
             self.currVid = self.vidTreeRoot
             self.currVid.start_vid(self.player)
+            return
         elif keyname == b'KEY_9':
-            self.currVid = victory_draw_screen
+            self.currVid = VidNode(
+                name='VICTORY_DRAW_SCREEN',
+                startTime=605,
+                endTime=620,
+            )
+            self.in_crowd_mode = False
             self.currVid.start_vid(self.player)
             return
         elif keyname == b'KEY_FORWARD' or keyname == b'KEY_FASTFORWARD':
@@ -263,7 +269,7 @@ def create_beyblade_vid_tree():
     nut1_screen = VidNode(
         name='NUT1_SCREEN',
         startTime=543,
-        endTime=550,
+        endTime=548,
     )
     nut2_screen = VidNode(
         name='NUT2_SCREEN',
@@ -344,13 +350,20 @@ def create_beyblade_vid_tree():
     intro_next_vids = []
     for i in range(len(selectable_intro_vids)):
         intro_next_vids.append(NextVid(
-            acceptedButtons=[bytes('KEY_{}'.format(i + 1), encoding='utf-8')],
+            acceptedButtons=[bytes('KEY_{}'.format(i + 1), encoding='utf-8'),
+            b'CHANNEL_UP', b'CHANNEL_DOWN'],
             vidNode=selectable_intro_vids[i],
         ))
     intro_vid.set_next_vids(intro_next_vids)
 
-    for vid in selectable_intro_vids:
+    for vid, index in selectable_intro_vids:
         vid.set_end_vid(title_screen)
+        vid.set_next_vids([
+            NextVid(
+                acceptedButtons=[b'CHANNEL_UP', b'CHANNEL_DOWN'],
+                vidNode=selectable_intro_vids[(index + 1) % 5],
+            ),
+        ])
 
     title_screen.set_next_vids([
         NextVid(
