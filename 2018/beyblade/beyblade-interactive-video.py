@@ -11,6 +11,9 @@
 ## If irw works, then in theory, this should too.
 ## Based on irw.c, https://github.com/aldebaran/lirc/blob/master/tools/irw.c
 
+# TODO: get/set functions for classes
+# TODO: use pythonic snake case as opposed to camelCase (oops)
+
 import os
 import socket
 import subprocess
@@ -44,17 +47,22 @@ AUDIO_CHEER_PATH = os.path.join(os.getcwd(), 'media', 'small_crowd_cheer.wav')
 # =======================
 
 class VidNode(object):
-    def __init__(self, startTime, endTime, nextVids=[], prevVid=None):
+    def __init__(self, name, startTime, endTime, nextVids=[], prevVid=None):
         """
+        :param name str: name of the video for identification, SCREAMING_CASE
         :param startTime int: start time in seconds
         :param endTime int: end time of video in seconds
-        :param nextVids list(NextVid):
+        :param nextVids list(NextVid): List of nextvids. Make sure there are no overlaps of accepted buttons for nextVids.
         :param prevVid VidNode:
         """
+        self.name = name
         self.startTime = startTime
         self.endTime = endTime
         self.nextVids = nextVids
         self.prevVid = prevVid
+
+    def set_next_vids(self, next_vids):
+        self.nextVids = next_vids
 
 class NextVid(object):
     def __init__(self, acceptedButtons, vidNode):
@@ -74,14 +82,59 @@ class VidPlayer(object):
         self.vidTreeRoot = vidTreeRoot
         self.currVid = vidTreeRoot
 
+    def handle_key(self, keyname):
+        print("Handling %s keypress for video %s" % (keyname, self.currVid.name))
+        print(self.currVid.nextVids)
+        if self.currVid.nextVids and isinstance(self.currVid.nextVids, list):
+            for vid in self.currVid.nextVids:
+                if keyname in vid.acceptedButtons:
+                    print("Changing videos: %s -> %s", (self.currVid.name, vid.vidNode.name))
+                    self.currVid = vid.vidNode
+                    self.player.set_position(self.currVid.startTime)
+                    return
+        print("No action to take")
 
 
 # =======================
 #        MAIN CODE
 # =======================
 
-def init_player():
-    return None
+def create_beyblade_vid_tree():
+    intro_vid = VidNode(name='INTRO',
+                       startTime=0,
+                       endTime=78)
+    selectable_intro_vids = [
+        VidNode(
+            name='J_INTRO',
+            startTime=79,
+            endTime=168,
+        ),
+        VidNode(
+            name='BE_INTRO',
+            startTime=169,
+            endTime=210,
+        ),
+    ]
+    intro_next_vids = []
+    for i in range(len(selectable_intro_vids)):
+        intro_next_vids.append(NextVid(
+            acceptedButtons=[bytes('KEY_{}'.format(i + 1), encoding='utf-8')],
+            vidNode=selectable_intro_vids[i],
+        ))
+    intro_vid.set_next_vids(intro_next_vids)
+    return intro_vid
+
+def init_player_obj():
+    # Initialize the OMXPlayer and sleep to load in video
+    prod_args = ['--no-osd', '--vol', str(VIDEO_VOLUME), '-o', VIDEO_AUDIO_SOURCE]
+    dev_args = ['--win', '0,40,600,400', '--no-osd', '--vol', str(VIDEO_VOLUME), '-o', VIDEO_AUDIO_SOURCE]
+    player = OMXPlayer(VIDEO_PATH, dev_args, pause=True)
+    player.pause()
+    sleep(5)
+    vid_tree_root = create_beyblade_vid_tree()
+    player_obj = VidPlayer(player, vid_tree_root)
+    print("Player ready")
+    return player_obj
 
 def init_irw():
     global sock
@@ -107,8 +160,11 @@ def next_key():
     words = data.split()
     return words[2], words[1]
 
-def run_player(player):
+def run_player(player_obj):
+    player = player_obj.player
+
     while True:
+        print('Getting next key')
         keyname, updown = next_key()
         print('%s (%s)' % (keyname, updown))
         if updown != b'00':
@@ -133,6 +189,8 @@ def run_player(player):
                 print('quitting %s (%s)' % (keyname, updown))
                 sleep(1)
             break
+        else:
+            player_obj.handle_key(keyname)
 
     print('goodbye')
 
@@ -140,16 +198,10 @@ def run_player(player):
 if __name__ == '__main__':
 
     init_irw()
-
-    # Initialize the OMXPlayer and sleep to load in video
-    prod_args = ['--no-osd', '--vol', str(VIDEO_VOLUME), '-o', VIDEO_AUDIO_SOURCE]
-    dev_args = ['--win', '0,40,600,400', '--no-osd', '--vol', str(VIDEO_VOLUME), '-o', VIDEO_AUDIO_SOURCE]
-    player = OMXPlayer(VIDEO_PATH, dev_args, pause=True)
-    player.pause()
-    sleep(3)
+    player_obj = init_player_obj()
 
     try:
-        run_player(player)
+        run_player(player_obj)
     except Exception as e:
         player.quit()
         raise e
