@@ -351,16 +351,17 @@ def create_beyblade_vid_tree():
     for i in range(len(selectable_intro_vids)):
         intro_next_vids.append(NextVid(
             acceptedButtons=[bytes('KEY_{}'.format(i + 1), encoding='utf-8'),
-            b'CHANNEL_UP', b'CHANNEL_DOWN'],
+            b'KEY_CHANNELUP', b'KEY_CHANNELDOWN'],
             vidNode=selectable_intro_vids[i],
         ))
     intro_vid.set_next_vids(intro_next_vids)
 
-    for vid, index in selectable_intro_vids:
+    for index in range(len(selectable_intro_vids)):
+        vid = selectable_intro_vids[index]
         vid.set_end_vid(title_screen)
         vid.set_next_vids([
             NextVid(
-                acceptedButtons=[b'CHANNEL_UP', b'CHANNEL_DOWN'],
+                acceptedButtons=[b'KEY_CHANNELUP', b'KEY_CHANNELDOWN'],
                 vidNode=selectable_intro_vids[(index + 1) % 5],
             ),
         ])
