@@ -29,7 +29,7 @@ sock = None
 # =======================
 #    VIDEO SETTINGS
 # =======================
-VIDEO_PATH = "./media/ocean_test.mp4"
+VIDEO_PATH = "./media/beyblade-semi-interactable-v1.mp4"
 # note: -602 is about 50% volume and -2000 is 10% volume. todo: add source
 VIDEO_VOLUME = -3000
 VIDEO_AUDIO_SOURCE = 'local' # change to 'hdmi' to play audio over HDMI rather than headphone jack
@@ -38,6 +38,50 @@ VIDEO_AUDIO_SOURCE = 'local' # change to 'hdmi' to play audio over HDMI rather t
 #  AUDIO ACCENT SETTINGS
 # =======================
 AUDIO_CHEER_PATH = os.path.join(os.getcwd(), 'media', 'small_crowd_cheer.wav')
+
+# =======================
+#  VIDEO TREE STRUCTURE
+# =======================
+
+class VidNode(object):
+    def __init__(self, startTime, endTime, nextVids=[], prevVid=None):
+        """
+        :param startTime int: start time in seconds
+        :param endTime int: end time of video in seconds
+        :param nextVids list(NextVid):
+        :param prevVid VidNode:
+        """
+        self.startTime = startTime
+        self.endTime = endTime
+        self.nextVids = nextVids
+        self.prevVid = prevVid
+
+class NextVid(object):
+    def __init__(self, acceptedButtons, vidNode):
+        """
+        :param acceptedButtons list(byte str): list of IR buttons that can be used to transition to this video from the previous video
+        :param vidNode VidNode: the actual pointer to the next video:
+        """
+        self.acceptedButtons = acceptedButtons
+        self.vidNode = vidNode
+
+class VidPlayer(object):
+    """Wrapper around the omxplayer containing positions in the interactive video
+    (composition pattern)
+    """
+    def __init__(self, player, vidTreeRoot):
+        self.player = player
+        self.vidTreeRoot = vidTreeRoot
+        self.currVid = vidTreeRoot
+
+
+
+# =======================
+#        MAIN CODE
+# =======================
+
+def init_player():
+    return None
 
 def init_irw():
     global sock
