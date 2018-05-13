@@ -75,6 +75,9 @@ class VidNode(object):
         """
         self._video_to_play_at_end = video_to_play_at_end
 
+    def get_end_vid(self):
+        return self._video_to_play_at_end
+
     def start_vid(self, player):
         player.set_position(self.startTime)
 
@@ -114,6 +117,16 @@ class VidPlayer(object):
                     self.player.set_position(self.currVid.startTime)
                     return
         print("No action to take")
+
+    def proceed(self):
+        """Check to see if the video position is at or beyond the current video's end time.
+        If so, set the current vid to the end vid and start playing at the end vid.
+        """
+        position_int = int(round(self.player.position()))
+        if position_int == self.currVid.endTime:
+            self.currVid = self.currVid.get_end_vid()
+            self.currVid.start_vid()
+
 
 
 # =======================
@@ -266,6 +279,7 @@ def init_player_obj():
 def init_irw():
     global sock
     sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    sock.settimeout(0.05)
     print ('starting up irw on %s' % SOCKPATH)
     sock.connect(SOCKPATH)
 
@@ -277,12 +291,14 @@ def next_key():
           with ctl-c. ctl-c will NOT kill the video while within the next_key loop.
           Instead, use the power button to exit gracefully as programmed.
     '''
-    while True:
+    data = b''
+    try:
         data = sock.recv(128)
-        # print("Data: " + data)
-        data = data.strip()
-        if data:
-            break
+    except socket.timeout:
+        print("timed out, moving on")
+    data = data.strip()
+    if not data:
+        return None, None
 
     words = data.split()
     return words[2], words[1]
@@ -291,6 +307,11 @@ def run_player(player_obj):
     player = player_obj.player
 
     while True:
+        # Check to see if the video has ended
+        # Dirty hack because I don't know a good way to have the object do this automatically
+        player_obj.proceed()
+
+        # Get keys and handle
         print('Getting next key')
         keyname, updown = next_key()
         print('%s (%s)' % (keyname, updown))
