@@ -205,6 +205,17 @@ class VidPlayer(object):
         if position_int == self.currVid.endTime:
             self.currVid = self.currVid.get_end_vid()
             self.currVid.start_vid(self.player)
+        crowd_vid_names = []
+        for vid in self.excited_vids:
+            crowd_vid_names.append(vid.name)
+        for vid in self.neutral_vids:
+            crowd_vid_names.append(vid.name)
+        for vid in self.negative_vids:
+            crowd_vid_names.append(vid.name)
+        if self.currVid.name in crowd_vid_names:
+            self.in_crowd_mode = True  # Note: all other setting of this val is redundant
+        else:
+            self.in_crowd_mode = False
 
 
 
