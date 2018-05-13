@@ -18,19 +18,30 @@ sock = None
 def init_irw():
     global sock
     sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    sock.settimeout(1)
     print ('starting up on %s' % SOCKPATH)
     sock.connect(SOCKPATH)
 
 def next_key():
     '''Get the next key pressed. Return keyname, updown.
     '''
-    while True:
+    #while True:
+    #    data = sock.recv(128)
+    #    # print("Data: " + data)
+    #    data = data.strip()
+    #    if data:
+    #        break
+    data = b''
+    try:
         data = sock.recv(128)
-        # print("Data: " + data)
-        data = data.strip()
-        if data:
-            break
+    except socket.timeout:
+        print("timed out, moving on")
+    data = data.strip()
+    if not data:
+        print("no data, returning")
+        return b'yay', b'yay'
 
+    print("found data, returning")
     words = data.split()
     return words[2], words[1]
 
