@@ -99,6 +99,63 @@ class VidPlayer(object):
         self.player = player
         self.vidTreeRoot = vidTreeRoot
         self.currVid = vidTreeRoot
+        self.in_crowd_mode = False
+        # The following should be done in an iterator - used for handle_key_in_crowd_mode
+        self.excited_idx = 0
+        self.neutral_idx = 0
+        self.negative_idx = 0
+        # These are set in the tree creator - used for handle_key_in_crowd_mode
+        cheer1_screen = VidNode(
+            name='CHEER1_SCREEN',
+            startTime=569,
+            endTime=572,
+        )
+        cheer2_screen = VidNode(
+            name='CHEER2_SCREEN',
+            startTime=572,
+            endTime=576,
+        )
+        boo1_screen = VidNode(
+            name='BOO1_SCREEN',
+            startTime=587,
+            endTime=591,
+        )
+        boo2_screen = VidNode(
+            name='BOO2_SCREEN',
+            startTime=594,
+            endTime=598,
+        )
+        nut1_screen = VidNode(
+            name='NUT1_SCREEN',
+            startTime=543,
+            endTime=550,
+        )
+        nut2_screen = VidNode(
+            name='NUT2_SCREEN',
+            startTime=550,
+            endTime=553,
+        )
+
+	self.excited_vids = [cheer1_screen, cheer2_screen]
+        self.neutral_vids = [boo1_screen, boo2_screen]
+        self.negative_vids = [nut1_screen, nut2_screen]
+
+    def handle_key_in_crowd_mode(self, keyname):
+        if keyname == b'KEY_1':
+            idx = (self.excited_idx + 1) % len(self.excited_vids)
+            self.currVid = self.excited_vids[idx]
+            self.currVid.start_vid(self.player)
+            self.excited_idx = idx
+        elif keyname == b'KEY_2':
+            idx = (self.negative_idx + 1) % len(self.negative_vids)
+            self.currVid = self.negative_vids[idx]
+            self.currVid.start_vid(self.player)
+            self.negative_idx = idx
+        elif keyname == b'KEY_3':
+            idx = (self.neutral_idx + 1) % len(self.neutral_vids)
+            self.currVid = self.neutral_vids[idx]
+            self.currVid.start_vid(self.player)
+            self.neutral_idx = idx
 
     def handle_key(self, keyname):
         print("Handling %s keypress for video %s" % (keyname, self.currVid.name))
@@ -107,14 +164,18 @@ class VidPlayer(object):
         if keyname == b'KEY_BACK':
             self.currVid = self.vidTreeRoot
             self.currVid.start_vid(self.player)
-        if keyname == b'KEY_9':
+        elif keyname == b'KEY_9':
             self.currVid = victory_draw_screen
             self.currVid.start_vid(self.player)
             return
-        if keyname == b'KEY_FORWARD' or keyname == b'KEY_FASTFORWARD':
+        elif keyname == b'KEY_FORWARD' or keyname == b'KEY_FASTFORWARD':
             print('fast forwarding to end vid %s' % self.currVid.get_end_vid().name)
             self.currVid = self.currVid.get_end_vid()
             self.currVid.start_vid(self.player)
+            return
+        
+        if self.in_crowd_mode:
+            self.handle_key_in_crowd_mode(keyname)
             return
 
         # Handle move to next video
@@ -124,6 +185,9 @@ class VidPlayer(object):
                     print("Changing videos: %s -> %s", (self.currVid.name, vid.vidNode.name))
                     self.currVid = vid.vidNode
                     self.player.set_position(self.currVid.startTime)
+                    # Dirty hack, needs more robust handling based on modes
+                    if self.currVid.name == 'NUT1_SCREEN':
+                        self.in_crowd_mode = True
                     return
         print("No action to take")
 
