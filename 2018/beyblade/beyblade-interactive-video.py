@@ -91,6 +91,11 @@ def init_irw():
 
 def next_key():
     '''Get the next key pressed. Return keyname, updown.
+
+    Note: this is based on code we grabbed from github that I don't have a moment to
+          completely understand right now. In any case, DO NOT try to exit the program
+          with ctl-c. ctl-c will NOT kill the video while within the next_key loop.
+          Instead, use the power button to exit gracefully as programmed.
     '''
     while True:
         data = sock.recv(128)
@@ -151,7 +156,9 @@ if __name__ == '__main__':
     init_irw()
 
     # Initialize the OMXPlayer and sleep to load in video
-    player = OMXPlayer(VIDEO_PATH, args=['--no-osd', '--vol', str(VIDEO_VOLUME), '-o', VIDEO_AUDIO_SOURCE], pause=True)
+    prod_args = ['--no-osd', '--vol', str(VIDEO_VOLUME), '-o', VIDEO_AUDIO_SOURCE]
+    dev_args = ['--win', '0,40,600,400', '--no-osd', '--vol', str(VIDEO_VOLUME), '-o', VIDEO_AUDIO_SOURCE]
+    player = OMXPlayer(VIDEO_PATH, dev_args, pause=True)
     player.pause()
     sleep(3)
 
@@ -160,3 +167,4 @@ if __name__ == '__main__':
     except Exception as e:
         player.quit()
         raise e
+
