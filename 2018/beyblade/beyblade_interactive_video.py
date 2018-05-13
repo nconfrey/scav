@@ -125,7 +125,7 @@ class VidPlayer(object):
         position_int = int(round(self.player.position()))
         if position_int == self.currVid.endTime:
             self.currVid = self.currVid.get_end_vid()
-            self.currVid.start_vid()
+            self.currVid.start_vid(self.player)
 
 
 
@@ -388,7 +388,7 @@ def next_key():
     try:
         data = sock.recv(128)
     except socket.timeout:
-        print("timed out, moving on")
+        return None, None
     data = data.strip()
     if not data:
         return None, None
@@ -444,6 +444,6 @@ if __name__ == '__main__':
     try:
         run_player(player_obj)
     except Exception as e:
-        player.quit()
+        player_obj.player.quit()
         raise e
 
