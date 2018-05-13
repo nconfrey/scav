@@ -47,6 +47,7 @@ AUDIO_CHEER_PATH = os.path.join(os.getcwd(), 'media', 'small_crowd_cheer.wav')
 # =======================
 
 class VidNode(object):
+
     def __init__(self, name, startTime, endTime, nextVids=[], prevVid=None):
         """
         :param name str: name of the video for identification, SCREAMING_CASE
@@ -54,18 +55,29 @@ class VidNode(object):
         :param endTime int: end time of video in seconds
         :param nextVids list(NextVid): List of nextvids. Make sure there are no overlaps of accepted buttons for nextVids.
         :param prevVid VidNode:
+        :param video_to_play_at_end
         """
         self.name = name
         self.startTime = startTime
         self.endTime = endTime
         self.nextVids = nextVids
         self.prevVid = prevVid
+        # Default set to self -- the video will loop at the end. Else, will play the video specified (use set_end_vid).
+        self._video_to_play_at_end = self
 
     def set_next_vids(self, next_vids):
         self.nextVids = next_vids
 
+    def set_end_vid(self, video_to_play_at_end):
+        """
+        Use this method to override the default looping behavior by pointing to another video.
+        :params video_to_play_at_end VidNode: Video that will play once the end time has been reached.
+        """
+        self._video_to_play_at_end = video_to_play_at_end
+
     def start_vid(self, player):
         player.set_position(self.startTime)
+
 
 class NextVid(object):
     def __init__(self, acceptedButtons, vidNode):
