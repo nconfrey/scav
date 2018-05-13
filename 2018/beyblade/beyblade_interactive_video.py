@@ -35,7 +35,7 @@ sock = None
 VIDEO_PATH = "./media/beyblade-semi-interactable-v1.mp4"
 # note: -602 is about 50% volume and -2000 is 10% volume. todo: add source
 VIDEO_VOLUME = -3000
-VIDEO_AUDIO_SOURCE = 'local' # change to 'hdmi' to play audio over HDMI rather than headphone jack
+VIDEO_AUDIO_SOURCE = 'hdmi' # change to 'hdmi' to play audio over HDMI rather than headphone jack ('local')
 
 # =======================
 #  AUDIO ACCENT SETTINGS
@@ -107,9 +107,12 @@ class VidPlayer(object):
         if keyname == b'KEY_BACK':
             self.currVid = self.vidTreeRoot
             self.currVid.start_vid(self.player)
+            return
         elif keyname == b'KEY_FORWARD' or keyname == b'KEY_FASTFORWARD':
+            print('fast forwarding to end vid %s' % self.currVid.get_end_vid().name)
             self.currVid = self.currVid.get_end_vid()
             self.currVid.start_vid(self.player)
+            return
 
         # Handle move to next video
         if self.currVid.nextVids and isinstance(self.currVid.nextVids, list):
@@ -280,7 +283,7 @@ def create_beyblade_vid_tree():
     intro_vid.set_next_vids(intro_next_vids)
 
     for vid in selectable_intro_vids:
-        vid.video_to_play_at_end = title_screen
+        vid.set_end_vid(title_screen)
 
     title_screen.set_next_vids([
         NextVid(
@@ -408,10 +411,10 @@ def run_player(player_obj):
         player_obj.proceed()
 
         # Get keys and handle
-        print('Getting next key')
+        #print('Getting next key')
         keyname, updown = next_key()
-        print('%s (%s)' % (keyname, updown))
-        if updown != b'00':
+        #print('%s (%s)' % (keyname, updown))
+        if not keyname or updown != b'00':
             # Only take the first signal. Ignore if person is pressing and holding button.
             continue
         # TODO: move default play/pause & power keys to video player object
