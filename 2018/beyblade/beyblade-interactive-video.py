@@ -111,6 +111,10 @@ def run_player(player):
     while True:
         keyname, updown = next_key()
         print('%s (%s)' % (keyname, updown))
+        if updown != b'00':
+            # Only take the first signal. Ignore if person is pressing and holding button.
+            continue
+        # TODO: move default play/pause & power keys to video player object
         if keyname == b'KEY_PLAY':
             if player.can_play():
                 print('playing %s (%s)' % (keyname, updown))
@@ -123,30 +127,12 @@ def run_player(player):
                 print('pausing %s (%s)' % (keyname, updown))
             else:
                 print('player cannot pause %s (%s)' % (keyname, updown))
-        elif keyname == b'KEY_POWER' and player:
-            if player.can_quit():
+        elif keyname == b'KEY_POWER':
+            if player and player.can_quit():
                 player.quit()
                 print('quitting %s (%s)' % (keyname, updown))
                 sleep(1)
-                print('exiting program')
-                break
-            else:
-                print('player cannot quit %s (%s)' % (keyname, updown))
-        elif keyname == b'KEY_2':
-            if player.can_seek():
-                player.set_position(2)
-                print('positioning to 2 %s (%s)' % (keyname, updown))
-            else:
-                print('player cannot seek %s (%s)' % (keyname, updown))
-        elif keyname == b'KEY_4':
-            if player.can_seek():
-                player.set_position(4)
-                print('positioning to 4 %s (%s)' % (keyname, updown))
-            else:
-                print('player cannot seek %s (%s)' % (keyname, updown))
-        elif keyname == b'KEY_9' and updown == b'00':
-            print('calling aplay with audio path %s' % AUDIO_CHEER_PATH)
-            subprocess.Popen(['aplay', AUDIO_CHEER_PATH])
+            break
 
     print('goodbye')
 
