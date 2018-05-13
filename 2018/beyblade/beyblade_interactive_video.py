@@ -34,7 +34,7 @@ sock = None
 # =======================
 VIDEO_PATH = "./media/beyblade-semi-interactable-v1.mp4"
 # note: -602 is about 50% volume and -2000 is 10% volume. todo: add source
-VIDEO_VOLUME = -3000
+VIDEO_VOLUME = -602
 VIDEO_AUDIO_SOURCE = 'hdmi' # change to 'hdmi' to play audio over HDMI rather than headphone jack ('local')
 
 # =======================
@@ -285,13 +285,20 @@ def create_beyblade_vid_tree():
     intro_next_vids = []
     for i in range(len(selectable_intro_vids)):
         intro_next_vids.append(NextVid(
-            acceptedButtons=[bytes('KEY_{}'.format(i + 1), encoding='utf-8')],
+            acceptedButtons=[bytes('KEY_{}'.format(i + 1), encoding='utf-8'),
+            b'CHANNEL_UP', b'CHANNEL_DOWN'],
             vidNode=selectable_intro_vids[i],
         ))
     intro_vid.set_next_vids(intro_next_vids)
 
-    for vid in selectable_intro_vids:
+    for vid, index in selectable_intro_vids:
         vid.set_end_vid(title_screen)
+        vid.set_next_vids([
+            NextVid(
+                acceptedButtons=[b'CHANNEL_UP', b'CHANNEL_DOWN']
+                vidNode=selectable_intro_vids[index > 3 ? index+1, 0]
+            ),
+        ])
 
     title_screen.set_next_vids([
         NextVid(
