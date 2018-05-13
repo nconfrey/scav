@@ -64,6 +64,9 @@ class VidNode(object):
     def set_next_vids(self, next_vids):
         self.nextVids = next_vids
 
+    def start_vid(self, player):
+        player.set_position(self.startTime)
+
 class NextVid(object):
     def __init__(self, acceptedButtons, vidNode):
         """
@@ -85,6 +88,12 @@ class VidPlayer(object):
     def handle_key(self, keyname):
         print("Handling %s keypress for video %s" % (keyname, self.currVid.name))
         print(self.currVid.nextVids)
+        # Global button handlers
+        if keyname == b'KEY_BACK':
+            self.currVid = self.vidTreeRoot
+            self.currVid.start_vid(self.player)
+
+        # Handle move to next video
         if self.currVid.nextVids and isinstance(self.currVid.nextVids, list):
             for vid in self.currVid.nextVids:
                 if keyname in vid.acceptedButtons:
