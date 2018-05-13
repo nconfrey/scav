@@ -114,6 +114,21 @@ def create_beyblade_vid_tree():
             startTime=169,
             endTime=210,
         ),
+        VidNode(
+            name='ME_INTRO',
+            startTime=211,
+            endTime=255,
+        ),
+        VidNode(
+            name='POKE_INTRO',
+            startTime=256,
+            endTime=315,
+        ),
+        VidNode(
+            name='OS_INTRO',
+            startTime=316,
+            endTime=375,
+        ),
     ]
     intro_next_vids = []
     for i in range(len(selectable_intro_vids)):
