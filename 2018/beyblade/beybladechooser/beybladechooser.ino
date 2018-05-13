@@ -6,8 +6,10 @@
 Servo myservo;  // create servo object to control a servo
 // twelve servo objects can be created on most boards
 
-int closed = 5;    // variable to store the servo position
-int openned=90;
+//int closed = 5;    // variable to store the servo position
+//int openned=90;
+int closed = 45;
+int openned= 15;
 int receiver = 11; // Signal Pin of IR receiver to Arduino Digital Pin 11
 
 /*-----( Declare objects )-----*/
@@ -28,9 +30,9 @@ void loop()
   if (irrecv.decode(&results)) // have we received an IR signal?
   {
     Serial.println("got an ir");
-    irrecv.resume(); // receive the next value
     myservo.write(openned);
     delay(100); 
+    irrecv.resume(); // receive the next value
   }  
 }
 
