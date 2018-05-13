@@ -121,6 +121,81 @@ class VidPlayer(object):
 # =======================
 
 def create_beyblade_vid_tree():
+
+    # Define tree nodes
+
+    title_screen = VidNode(
+        name='TITLE_SCREEN',
+        startTime=376,
+        endTime=408,
+    )
+    character_select_screen = VidNode(
+        name='CHARACTER_SELECT_SCREEN',
+        startTime=409,
+        endTime=423,
+    )
+    no_fight_credits_screen = VidNode(
+        name='NO_FIGHT_CREDITS_SCREEN',
+        startTime=665,
+        endTime=677,
+    )
+    restart_screen = VidNode(
+        name='RESTART_SCREEN',
+        startTime=678,
+        endTime=713,
+    )
+    true_ending_screen = VidNode(
+        name='TRUE_ENDING_SCREEN',
+        startTime=714,
+        endTime=777,
+    )
+    congrats_screen = VidNode(
+        name='CONGRATS_SCREEN',
+        startTime=651,
+        endTime=664,
+    )
+    cheer1_screen = VidNode(
+        name='CHEER1_SCREEN',
+        startTime=569,
+        endTime=572,
+    )
+    cheer2_screen = VidNode(
+        name='CHEER2_SCREEN',
+        startTime=572,
+        endTime=576,
+    )
+    boo1_screen = VidNode(
+        name='BOO1_SCREEN',
+        startTime=587,
+        endTime=591,
+    )
+    boo2_screen = VidNode(
+        name='BOO2_SCREEN',
+        startTime=594,
+        endTime=598,
+    )
+    nut1_screen = VidNode(
+        name='NUT1_SCREEN',
+        startTime=543,
+        endTime=550,
+    )
+    nut2_screen = VidNode(
+        name='NUT2_SCREEN',
+        startTime=550,
+        endTime=553,
+    )
+    all_character_selected_screen = VidNode(
+        name='CHAR_SELECTED_SCREEN',
+        startTime=528,
+        endTime=543,
+    )
+    victory_DRAW_screen = VidNode(
+        name='VICTORY_DRAW_SCREEN',
+        startTime=605,
+        endTime=620,
+    )
+
+    # Link nodes
     intro_vid = VidNode(name='INTRO',
                        startTime=0,
                        endTime=78)
@@ -158,6 +233,22 @@ def create_beyblade_vid_tree():
             vidNode=selectable_intro_vids[i],
         ))
     intro_vid.set_next_vids(intro_next_vids)
+
+    title_screen = VidNode(name='TITLE',
+                           startTime=376,
+                           endTime=408)
+
+    for vid in selectable_intro_vids:
+        vid.video_to_play_at_end = title_screen
+
+
+    title_screen.set_next_vids([
+        NextVid(
+            acceptedButtons=[b'KEY_GREEN']
+            vidNode=
+        )
+    ])
+
     return intro_vid
 
 def init_player_obj():
