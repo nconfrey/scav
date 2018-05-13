@@ -91,6 +91,109 @@ class NextVid(object):
         self.acceptedButtons = acceptedButtons
         self.vidNode = vidNode
 
+# Define tree nodes
+
+title_screen = VidNode(
+    name='TITLE_SCREEN',
+    startTime=376,
+    endTime=408,
+)
+character_select_screen = VidNode(
+    name='CHARACTER_SELECT_SCREEN',
+    startTime=409,
+    endTime=423,
+)
+no_fight_credits_screen = VidNode(
+    name='NO_FIGHT_CREDITS_SCREEN',
+    startTime=665,
+    endTime=677,
+)
+restart_screen = VidNode(
+    name='RESTART_SCREEN',
+    startTime=678,
+    endTime=713,
+)
+true_ending_screen = VidNode(
+    name='TRUE_ENDING_SCREEN',
+    startTime=714,
+    endTime=777,
+)
+congrats_screen = VidNode(
+    name='CONGRATS_SCREEN',
+    startTime=651,
+    endTime=664,
+)
+cheer1_screen = VidNode(
+    name='CHEER1_SCREEN',
+    startTime=569,
+    endTime=572,
+)
+cheer2_screen = VidNode(
+    name='CHEER2_SCREEN',
+    startTime=572,
+    endTime=576,
+)
+boo1_screen = VidNode(
+    name='BOO1_SCREEN',
+    startTime=587,
+    endTime=591,
+)
+boo2_screen = VidNode(
+    name='BOO2_SCREEN',
+    startTime=594,
+    endTime=598,
+)
+nut1_screen = VidNode(
+    name='NUT1_SCREEN',
+    startTime=543,
+    endTime=548,
+)
+nut2_screen = VidNode(
+    name='NUT2_SCREEN',
+    startTime=550,
+    endTime=553,
+)
+all_character_selected_screen = VidNode(
+    name='CHAR_SELECTED_SCREEN',
+    startTime=528,
+    endTime=543,
+)
+victory_draw_screen = VidNode(
+    name='VICTORY_DRAW_SCREEN',
+    startTime=605,
+    endTime=620,
+)
+choose1_gold_black_screen = VidNode(
+    name='CHOOSE1_GB_SCREEN',
+    startTime=498,
+    endTime=513,
+)
+choose1_kh_screen = VidNode(
+    name='CHOOSE1_KH_SCREEN',
+    startTime=427,
+    endTime=438,
+)
+choose1_red_green_screen = VidNode(
+    name='CHOOSE1_RG_SCREEN',
+    startTime=483,
+    endTime=498,
+)
+choose2_kh_gb_screen = VidNode(
+    name='CHOOSE2_KH_GB_SCREEN',
+    startTime=453,
+    endTime=468,
+)
+choose2_rg_gb_screen = VidNode(
+    name='CHOOSE2_RG_GB_SCREEN',
+    startTime=513,
+    endTime=528,
+)
+choose2_kh_rg_screen = VidNode(
+    name='CHOOSE2_KH_GB_SCREEN',
+    startTime=438,
+    endTime=453,
+)
+
 class VidPlayer(object):
     """Wrapper around the omxplayer containing positions in the interactive video
     (composition pattern)
@@ -108,11 +211,7 @@ class VidPlayer(object):
             self.currVid = self.vidTreeRoot
             self.currVid.start_vid(self.player)
         if keyname == b'KEY_9':
-            self.currVid = VidNode(
-                name='VICTORY_DRAW_SCREEN',
-                startTime=605,
-                endTime=620,
-            )
+            self.currVid = congrats_screen
             self.in_crowd_mode = False
             self.currVid.start_vid(self.player)
             return
@@ -141,116 +240,11 @@ class VidPlayer(object):
             self.currVid = self.currVid.get_end_vid()
             self.currVid.start_vid(self.player)
 
-
-
 # =======================
 #        MAIN CODE
 # =======================
 
 def create_beyblade_vid_tree():
-
-    # Define tree nodes
-
-    title_screen = VidNode(
-        name='TITLE_SCREEN',
-        startTime=376,
-        endTime=408,
-    )
-    character_select_screen = VidNode(
-        name='CHARACTER_SELECT_SCREEN',
-        startTime=409,
-        endTime=423,
-    )
-    no_fight_credits_screen = VidNode(
-        name='NO_FIGHT_CREDITS_SCREEN',
-        startTime=665,
-        endTime=677,
-    )
-    restart_screen = VidNode(
-        name='RESTART_SCREEN',
-        startTime=678,
-        endTime=713,
-    )
-    true_ending_screen = VidNode(
-        name='TRUE_ENDING_SCREEN',
-        startTime=714,
-        endTime=777,
-    )
-    congrats_screen = VidNode(
-        name='CONGRATS_SCREEN',
-        startTime=651,
-        endTime=664,
-    )
-    cheer1_screen = VidNode(
-        name='CHEER1_SCREEN',
-        startTime=569,
-        endTime=572,
-    )
-    cheer2_screen = VidNode(
-        name='CHEER2_SCREEN',
-        startTime=572,
-        endTime=576,
-    )
-    boo1_screen = VidNode(
-        name='BOO1_SCREEN',
-        startTime=587,
-        endTime=591,
-    )
-    boo2_screen = VidNode(
-        name='BOO2_SCREEN',
-        startTime=594,
-        endTime=598,
-    )
-    nut1_screen = VidNode(
-        name='NUT1_SCREEN',
-        startTime=543,
-        endTime=548,
-    )
-    nut2_screen = VidNode(
-        name='NUT2_SCREEN',
-        startTime=550,
-        endTime=553,
-    )
-    all_character_selected_screen = VidNode(
-        name='CHAR_SELECTED_SCREEN',
-        startTime=528,
-        endTime=543,
-    )
-    victory_draw_screen = VidNode(
-        name='VICTORY_DRAW_SCREEN',
-        startTime=605,
-        endTime=620,
-    )
-    choose1_gold_black_screen = VidNode(
-        name='CHOOSE1_GB_SCREEN',
-        startTime=498,
-        endTime=513,
-    )
-    choose1_kh_screen = VidNode(
-        name='CHOOSE1_KH_SCREEN',
-        startTime=427,
-        endTime=438,
-    )
-    choose1_red_green_screen = VidNode(
-        name='CHOOSE1_RG_SCREEN',
-        startTime=483,
-        endTime=498,
-    )
-    choose2_kh_gb_screen = VidNode(
-        name='CHOOSE2_KH_GB_SCREEN',
-        startTime=453,
-        endTime=468,
-    )
-    choose2_rg_gb_screen = VidNode(
-        name='CHOOSE2_RG_GB_SCREEN',
-        startTime=513,
-        endTime=528,
-    )
-    choose2_kh_rg_screen = VidNode(
-        name='CHOOSE2_KH_GB_SCREEN',
-        startTime=438,
-        endTime=453,
-    )
     # Link nodes
     intro_vid = VidNode(name='INTRO',
                        startTime=0,
