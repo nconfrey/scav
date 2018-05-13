@@ -263,12 +263,84 @@ def create_beyblade_vid_tree():
         ))
     intro_vid.set_next_vids(intro_next_vids)
 
-    title_screen = VidNode(name='TITLE',
-                           startTime=376,
-                           endTime=408)
-
     for vid in selectable_intro_vids:
         vid.video_to_play_at_end = title_screen
+
+    title_screen.set_next_vids([
+        NextVid(
+            acceptedButtons=[b'KEY_GREEN'],
+            vidNode=character_select_screen,
+        ),
+        NextVid(
+            acceptedButtons=[b'KEY_RED'],
+            vidNode=no_fight_credits_screen
+        ),
+    ])
+
+    no_fight_credits_screen.set_end_vid(restart_screen);
+
+    restart_screen.set_next_vids([
+        NextVid(
+            acceptedButtons=[b'KEY_GREEN'],
+            vidNode=title_screen
+        ),
+        NextVid(
+            acceptedButtons=[b'KEY_RED'],
+            vidNode=true_ending_screen
+        ),
+    ])
+
+    character_select_screen.set_next_vids([
+        NextVid(
+            acceptedButtons=[b'KEY_1'],
+            vidNode=choose1_gold_black_screen
+        ),
+        NextVid(
+            acceptedButtons=[b'KEY_2'],
+            vidNode=choose1_kh_screen
+        ),
+        NextVid(
+            acceptedButtons=[b'KEY_3'],
+            vidNode=choose1_red_green_screen
+        ),
+    ])
+
+    choose1_gold_black_screen.set_next_vids([
+        NextVid(
+            acceptedButtons=[b'KEY_2'],
+            vidNode=choose2_kh_gb_screen
+        ),
+        NextVid(
+            acceptedButtons=[b'KEY_3'],
+            vidNode=choose2_rg_gb_screen
+        )
+    ])
+
+    choose1_kh_screen.set_next_vids([
+        NextVid(
+            acceptedButtons=[b'KEY_1'],
+            vidNode=choose2_kh_gb_screen
+        ),
+        NextVid(
+            acceptedButtons=[b'KEY_3'],
+            vidNode=choose2_kh_rg_screen
+        )
+    ])
+
+    choose1_red_green_screen.set_next_vids([
+        NextVid(
+            acceptedButtons=[b'KEY_1'],
+            vidNode=choose2_kh_rg_screen
+        ),
+        NextVid(
+            acceptedButtons=[b'KEY_2'],
+            vidNode=choose2_rg_gb_screen
+        )
+    ])
+
+    choose2_rg_gb_screen.set_end_vid(all_character_selected_screen)
+    choose2_kh_rg_screen.set_end_vid(all_character_selected_screen)
+    choose2_kh_gb_screen.set_end_vid(all_character_selected_screen)
 
     return intro_vid
 
