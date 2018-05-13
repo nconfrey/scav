@@ -107,6 +107,9 @@ class VidPlayer(object):
         if keyname == b'KEY_BACK':
             self.currVid = self.vidTreeRoot
             self.currVid.start_vid(self.player)
+        elif keyname == b'KEY_FORWARD' or keyname == b'KEY_FASTFORWARD':
+            self.currVid = self.currVid.get_end_vid()
+            self.currVid.start_vid(self.player)
 
         # Handle move to next video
         if self.currVid.nextVids and isinstance(self.currVid.nextVids, list):
