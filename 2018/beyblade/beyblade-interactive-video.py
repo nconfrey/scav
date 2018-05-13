@@ -189,12 +189,41 @@ def create_beyblade_vid_tree():
         startTime=528,
         endTime=543,
     )
-    victory_DRAW_screen = VidNode(
+    victory_draw_screen = VidNode(
         name='VICTORY_DRAW_SCREEN',
         startTime=605,
         endTime=620,
     )
-
+    choose1_gold_black_screen = VidNode(
+        name='CHOOSE1_GB_SCREEN',
+        startTime=498,
+        endTime=513,
+    )
+    choose1_kh_screen = VidNode(
+        name='CHOOSE1_KH_SCREEN',
+        startTime=427,
+        endTime=438,
+    )
+    choose1_red_green_screen = VidNode(
+        name='CHOOSE1_RG_SCREEN',
+        startTime=483,
+        endTime=498,
+    )
+    choose2_kh_gb_screen = VidNode(
+        name='CHOOSE2_KH_GB_SCREEN',
+        startTime=453,
+        endTime=468,
+    )
+    choose2_rg_gb_screen = VidNode(
+        name='CHOOSE2_RG_GB_SCREEN',
+        startTime=513,
+        endTime=528,
+    )
+    choose2_kh_rg_screen = VidNode(
+        name='CHOOSE2_KH_GB_SCREEN',
+        startTime=438,
+        endTime=453,
+    )
     # Link nodes
     intro_vid = VidNode(name='INTRO',
                        startTime=0,
@@ -240,14 +269,6 @@ def create_beyblade_vid_tree():
 
     for vid in selectable_intro_vids:
         vid.video_to_play_at_end = title_screen
-
-
-    title_screen.set_next_vids([
-        NextVid(
-            acceptedButtons=[b'KEY_GREEN']
-            vidNode=
-        )
-    ])
 
     return intro_vid
 
