@@ -108,7 +108,12 @@ class VidPlayer(object):
             self.currVid = self.vidTreeRoot
             self.currVid.start_vid(self.player)
         if keyname == b'KEY_9':
-            self.currVid = victory_draw_screen
+            self.currVid = VidNode(
+                name='VICTORY_DRAW_SCREEN',
+                startTime=605,
+                endTime=620,
+            )
+            self.in_crowd_mode = False
             self.currVid.start_vid(self.player)
             return
         if keyname == b'KEY_FORWARD' or keyname == b'KEY_FASTFORWARD':
@@ -199,7 +204,7 @@ def create_beyblade_vid_tree():
     nut1_screen = VidNode(
         name='NUT1_SCREEN',
         startTime=543,
-        endTime=550,
+        endTime=548,
     )
     nut2_screen = VidNode(
         name='NUT2_SCREEN',
