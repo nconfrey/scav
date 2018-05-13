@@ -107,6 +107,9 @@ class VidPlayer(object):
         if keyname == b'KEY_BACK':
             self.currVid = self.vidTreeRoot
             self.currVid.start_vid(self.player)
+        if keyname == b'KEY_9':
+            self.currVid = victory_draw_screen
+            self.currVid.start_vid(self.player)
 
         # Handle move to next video
         if self.currVid.nextVids and isinstance(self.currVid.nextVids, list):
@@ -351,9 +354,13 @@ def create_beyblade_vid_tree():
         )
     ])
 
-    choose2_rg_gb_screen.set_end_vid(all_character_selected_screen)
-    choose2_kh_rg_screen.set_end_vid(all_character_selected_screen)
-    choose2_kh_gb_screen.set_end_vid(all_character_selected_screen)
+    choose2_rg_gb_screen.set_end_vid(nut1_screen)
+    choose2_kh_rg_screen.set_end_vid(nut1_screen)
+    choose2_kh_gb_screen.set_end_vid(nut1_screen)
+
+    victory_draw_screen.set_end_vid(congrats_screen)
+    congrats_screen.set_end_vid(true_ending_screen)
+    true_ending_screen.set_end_vid(restart_screen)
 
     return intro_vid
 
