@@ -32,14 +32,12 @@ void readTouchInputs() {
     for (int i = 0; i < 12; i++) { // Check which electrodes were pressed
       if (MPR121.isNewTouch(i)) {
         //pin i was just touched
-        Serial.print("pin ");
         Serial.print(i);
-        Serial.println(" was just touched");
+        Serial.println(" on");
       } else {
         if (MPR121.isNewRelease(i)) {
-          Serial.print("pin ");
           Serial.print(i);
-          Serial.println(" is no longer being touched");
+          Serial.println(" off");
         }
       }
     }
