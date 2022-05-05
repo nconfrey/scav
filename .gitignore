@@ -3,3 +3,6 @@
 
 # Java things
 *.class
+
+# Node things
+node_modules
