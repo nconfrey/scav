@@ -14,7 +14,8 @@ Em kicked the year off by creating the [Scavendates -> Normie Times](https://doc
 
 ## Items Completed With Code
 
-TODO
+- (33) Like the New York Times Spelling Bee, but wish it had a hard mode? Then you’ll love this Item. It will go live on National Puzzle Day at buzz.pythonanywhere.com. Feel free to use whatever resources
+you’d like to complete it, and go fast! `[`10 points for making Queen Bee, 8/5/3 bonus points for 1st 2nd and 3rd to complete it`]` (Em + Nick)
 
 ## Items Completed Physically
 

@@ -1,0 +1,17 @@
+{
+  "name": "bumblewords",
+  "version": "0.0.1",
+  "description": "Scav 2022 Item 33 Brute Force",
+  "main": "bumblewords.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.7",
+    "throttle-wait": "0.0.5"
+  }
+}
