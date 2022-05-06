@@ -21,4 +21,6 @@ you’d like to complete it, and go fast! [10 points for making Queen Bee, 8/5/3
 
 - (1) A copy of the 2014(0) University of Chicago Scavenger Hunt List. [1 point]
 - (8) Why, thank you for those heartfelt cards celebrating Penguin Awareness Day (January 20th), International Plastic Bag Free Day (July 3rd), Vanilla Cupcake Day (November 10th), or, frankly, any three mostly-phony holidays, emailed to virtualscavjudge@gmail.com on that holiday. [2 points each] (Em)
+- (56) On June 1st, show up to any CVS. Go in, and buy precisely one (1) item and get a receipt. Pics (with
+a tape measure for scale) or it didn’t happen. [1 point per inch] (Em & Nick) -- 38 inch receipt!!
 - (66) It’s the RGB Code Guessing Game! The game where you guess a color’s RGB Code! Don’t you understand? To participate, meet in the Virtual Scav Zoom Room on Saint Patrick’s Day. [#000005 points]
