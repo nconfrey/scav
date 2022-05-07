@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<title>&lt;analog-clock&gt;</title>
+
+<style>
+  section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 3em;
+  }
+
+  .clock {
+    justify-self: center;
+    text-align: center;
+  }
+
+  analog-clock {
+    width: 15rem;
+    height: 15rem;
+  }
+</style>
+
+<h1>whattimeisitnow.scav</h1>
+<section class="theclocks">
+  
+  <div class="clock">
+    <h1>Local</h1>
+    <analog-clock></analog-clock>
+  </div>
+  <div class="clock">
+    <h1>Chicago</h1>
+    <analog-clock offset="-6"></analog-clock>
+  </div>
+</section>
+
+
+
+
+
+
+<script type="module" src="./analog-clock/clock.js"></script>
