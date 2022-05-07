@@ -99,6 +99,7 @@ template.innerHTML = /* html */ `
     <div id="minute" class="hand"></div>
     <div id="second" class="hand"></div>
   </div>
+  <h3 id="theAmPm"></h3>
 `;
 
 function clone() {
@@ -143,13 +144,14 @@ class Clock {
     this.hourNode = frag.querySelector('#hour');
     this.minuteNode = frag.querySelector('#minute');
     this.secondNode = frag.querySelector('#second');
+    this.amPmNode = frag.querySelector('#theAmPm');
 
     /* State variables */
     this.hour;
     this.minute;
     this.second;
     this.mounted;
-    this.threshold = 200;
+    this.threshold = 140;
     this.offset = null;
     this.time = Date.now() - this.threshold;
     this.rafId;
@@ -161,6 +163,10 @@ class Clock {
   /* DOM update functions */
   setDateNode(value) {
     this.dateNode.textContent = value;
+  }
+
+  setAmPmNode(value) {
+    this.amPmNode.textContent = value;
   }
 
   setHourNode(value) {
@@ -211,12 +217,17 @@ class Clock {
   setDate(value) {
     const month = months[value.getMonth()];
     const date = value.getDate();
-    let year = value.getFullYear() - 2;
+    let year = value.getFullYear();
     if(this.offset == null) {
       // NOTE: currently "this.offset" is used as a proxy for "non-scaventime"
       year -= 2;
     }
     this.setDateNode(month + ' ' + date + ', ' + year);
+  }
+
+  setAmPm(value) {
+    const hour = value.getHours();
+    this.setAmPmNode(hour < 12 ? 'AM' : 'PM');
   }
 
   setHour(value) {
@@ -260,6 +271,7 @@ class Clock {
     }
 
     this.setDate(date);
+    this.setAmPm(date);
     this.setHour(date.getHours());
     this.setMinute(date.getMinutes());
     this.setSecond(date.getSeconds());
