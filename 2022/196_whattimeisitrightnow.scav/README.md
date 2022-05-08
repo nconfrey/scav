@@ -7,6 +7,21 @@ cd analog-clock
 http-server
 ```
 
+### Live Demo
+
+https://whattimeisitrightnowscav.herokuapp.com/
+
+If the link is no longer working, I took it down. Feel free to run the code locally if that's the case.
+
+### Gif Demos!
+
+The requested item: Shows what time it is right now during scav (as well as a comparison with the local chicago time)
+
+![examplescavenclock](./docs/examplescavenclock.gif)
+
+For posterity! (because the clock will not work properly outside of scav 2022 dates):
+
+![scaventimeconverter](./docs/scaventimeconverter.gif)
 
 ### Resources
 - https://www.npmjs.com/package/analog-clock
