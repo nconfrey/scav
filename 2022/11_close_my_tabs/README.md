@@ -1,6 +1,7 @@
 ### Behavior
 
-Currently the extension will close tabs every 5-60 seconds
+Currently the extension will close tabs every 5-60 seconds.
+It will also close tabs on demand via clicking the pinned extension in your tabs.
 
 ### Resources
 
