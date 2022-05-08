@@ -1,5 +1,5 @@
 # Mac things
-.DS_Store
+*.DS_Store
 
 # Java things
 *.class
