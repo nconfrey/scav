@@ -1,43 +1,58 @@
 <!doctype html>
 <html lang="en">
-<title>whattimeisitnow.scav</title>
+  <head>
+    <style>
+      section {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 3em;
+      }
 
-<style>
-  section {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 3em;
-  }
+      .clock {
+        justify-self: center;
+        text-align: center;
+      }
 
-  .clock {
-    justify-self: center;
-    text-align: center;
-  }
+      analog-clock {
+        width: 15rem;
+        height: 15rem;
+      }
+    </style>
+    <title>whattimeisitnow.scav</title>
+  </head>
 
-  analog-clock {
-    width: 15rem;
-    height: 15rem;
-  }
-</style>
+  <body>
+    <h1>whattimeisitrightnow.scav</h1>
+    <section class="theclocks">
+      <div class="clock">
+        <h1>Scaventime</h1>
+        <analog-clock></analog-clock>
+      </div>
+      <div class="clock">
+        <h1>Normietime</h1>
+        <analog-clock offset="-5"></analog-clock>
+      </div>
+    </section>
+    <section>
+      <div>
+        <hr>
+        <h1>Normie to Scaventime Converter</h1>
+        <p>Pick a normie date and time:</p>
+        <input id="dateInput" type="date"/>
+        <input id="timeInput" type="time" />
+        <p>The clock will appear below</p>
+        <p>
+          Note: Scav lasted from May 5 midnight - May 8, 2022 19:30 CDT
+          <br/>
+          Another Note: This really only will work correctly if your local time is central time. Sorry not sorry.
+        </p>
+        <div id="staticClock"></div>
+      </div>
+    </section>
 
-<h1>whattimeisitnow.scav</h1>
-<section class="theclocks">
-  
-  <div class="clock">
-    <h1>Scaventime</h1>
-    <analog-clock></analog-clock>
-  </div>
-  <div class="clock">
-    <h1>Normietime</h1>
-    <analog-clock offset="-5"></analog-clock>
-  </div>
-</section>
-
-
-
-
-
-
-<script type="module" src="./analog-clock/clock.js"></script>
+    <script type="module" src="./analog-clock/clock.js"></script>
+    <script type="module" src="./staticClock.js"></script>
+  </body>
+</html>

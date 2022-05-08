@@ -116,8 +116,10 @@ function getScavenDateFromNormieDate(date) {
   const scavStart = new Date('2022-05-05T00:00:00-05:00').getTime();
   const scavEnd = new Date('2022-05-08T19:30:00-05:00').getTime();
   const numMsInScavenYear = scavEnd - scavStart;
-  const leapYearStart = new Date('2016-01-01T00:00:00-05:00').getTime();
-  const leapYearEnd = new Date('2017-01-01T00:00:00-05:00').getTime();
+
+  // chicago CDT is -5; CST is -6.
+  const leapYearStart = new Date('2016-01-01T00:00:00-06:00').getTime();
+  const leapYearEnd = new Date('2017-01-01T00:00:00-06:00').getTime();
   const numMsInNormieYear = leapYearEnd - leapYearStart;
 
   const elapsedMsSinceScav = date.getTime() - scavStart;
@@ -304,6 +306,7 @@ class Clock {
   }
 
   setExplicitTime(time) {
+    const date = new Date(Number(time));
     this.stop();
     this.updateTime(Number(time));
   }
